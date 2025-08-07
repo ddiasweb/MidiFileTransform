@@ -1,0 +1,5 @@
+/build/
+/poetry.lock
+*.pyc
+*.spec
+*.mid
