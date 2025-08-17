@@ -405,10 +405,10 @@ class MidiFileTransform(QWidget):
         try:
             canal_origem = int(self.canal_origem.currentData())
             canal_destino = int(self.canal_destino.currentData())
-            nova_mid = MidiFile(ticks_per_beat=self.mid.ticks_per_beat)
+            nova_mid = MidiFile(type=0, ticks_per_beat=self.mid.ticks_per_beat)  # tipo 0
+            nova_track = MidiTrack()
+            nova_mid.tracks.append(nova_track)
             for track in self.mid.tracks:
-                nova_track = MidiTrack()
-                nova_mid.tracks.append(nova_track)
                 for msg in track:
                     if hasattr(msg, 'channel') and msg.channel == canal_origem:
                         msg = msg.copy(channel=canal_destino, time=msg.time)
@@ -424,10 +424,10 @@ class MidiFileTransform(QWidget):
     def executar_volume(self):
         try:
             volume_fator = float(self.volume_input.value()) / 100.0
-            nova_mid = MidiFile(ticks_per_beat=self.mid.ticks_per_beat)
+            nova_mid = MidiFile(type=0, ticks_per_beat=self.mid.ticks_per_beat)  # tipo 0
+            nova_track = MidiTrack()
+            nova_mid.tracks.append(nova_track)
             for track in self.mid.tracks:
-                nova_track = MidiTrack()
-                nova_mid.tracks.append(nova_track)
                 for msg in track:
                     if msg.type == "note_on":
                         vel = max(1, min(127, int(msg.velocity * volume_fator)))
